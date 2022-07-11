@@ -1,4 +1,174 @@
 <!DOCTYPE html>
 <html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta content="width=device-width,initial-scale=1.0" name="viewport">
+        <title>Web Test</title>
+    </head>
+    <style>
+       ul.inside {
+  list-style-position: inside;
+}
 
+li {
+  background-color: rgb(248, 244, 248);
+}
+
+.flow {
+  max-width: 40rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.list-container {
+  margin-top: 0;
+}
+
+ul.image-mark > li{
+  list-style-type: "🛒";
+}
+
+::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
+    color: plum;
+}
+    </style>
+    <body>
+      <main>
+        <div class="wrapper">
+          <article class="flow">
+            
+            <div class="list-container">
+              <h1>outside</h1>
+              <ul>
+                <li>oat milk</li>
+                <li>rhubarb</li>
+                <li>cereal</li>
+                <li>pie crust</li>
+              </ul>
+            </div>
+            
+            <div class="list-container">
+              <h1>inside</h1>
+              <ul class="inside">
+                <li>oat milk</li>
+                <li>rhubarb</li>
+                <li>cereal</li>
+                <li>pie crust</li>
+              </ul>
+            </div>
+
+            <div class="list-container">
+              <h1>inside</h1>
+              <ul class="inside image-mark">
+                <li>oat milk</li>
+                <li >rhubarb</li>
+                <li>cereal</li>
+                <li>pie crust</li>
+              </ul>
+            </div>
+      
+          </article>
+        </div>
+
+        <button type="button" class="command-go-promise">Test Promise</button>
+
+        <button type="button" class="command-go-await">Test Await</button>
+
+      </main>
+
+      <script>
+        let _pNum = 1;
+        document.addEventListener('DOMContentLoaded', () => {
+          document.addEventListener('click', (e) => {
+            e.composedPath().find((node) => {
+              if (typeof node.className !== 'string' || !node.className || !node.className.match(/command/)) return false;
+
+              if (node.className.match(/command-go-promise/)) 
+              {
+                console.log("command-go-promise");
+                applyPromise();
+              }
+              if (node.className.match(/command-go-await/)) 
+              {
+                console.log("command-go-await");
+                applyAwait();
+              }
+            });
+          });
+        });
+
+        function testPromise()
+        {
+          return new Promise( (resolve, reject) => {
+            const result = Math.random() > 0.5;
+            if(result) resolve({"id": 33});
+            else reject({"message":"error this Promise"})
+          });
+        }
+
+        function applyPromise()
+        {
+          testPromise()
+          .then(result=>{
+            console.log(result);
+          })
+          .catch(error=>{
+            console.log(error.message);
+          });
+        }
+
+        function productReady(pNum, pTime)
+        {
+          return  new Promise((resolve)=>{
+            setTimeout(() => {
+              console.log(pNum);
+              resolve("Succes to delivery your stuff!!!");
+            }, pTime);
+          });
+        }
+
+        async function applyAwait()//await를 처리하는 함수 앞에 async를 써준다.
+        {
+          const ptime = Math.random() * 10000;
+          const result = await productReady(_pNum, ptime); //비동기 함수를 실행할때 await를 표기한다.
+          console.log('applyAwait', result, 'waiting time', ptime/1000);
+          _pNum++;
+        }
+
+
+        function RequestData()
+        {
+          return Math.random() > 0.5;
+        }
+
+        // const oProductReady = new Promise(function(fnResolve, fnReject){
+        //   //pending
+        //   let bStatus = RequestData();
+        //   if(bStatus) //resolved
+        //   {
+        //     fnResolve("Success to delivery");
+        //   }
+        //   else
+        //   {
+        //     fnReject("Sorry fail to delivery");
+        //   }
+
+        // });
+
+        // oProductReady.then(function (pResult){
+        //     console.log(pResult);
+        //   },  function(pError){
+        //     console.log("Error", pError);
+        //   }
+        // )
+      </script>
+    </body>
+    
 </html>

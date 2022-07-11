@@ -1,0 +1,18 @@
+{
+    "name":"First PWA Project",
+    "short_name" :"1st PWA",
+    "description" : "fris prograssive web application project",
+    "scope"  : ".",
+    "start_url" : "./",
+    "display" : "standalone",
+    "orientation": "portrait",
+    "theme_color": "#ffffff",
+    "background_color" : "#ffffff",
+    "icon" : [
+        {
+            "src" : "images/icons/android-chrom-512*512.png",
+            "size" : "512*512",
+            "type" : "image/png"
+        }
+    ]
+}
